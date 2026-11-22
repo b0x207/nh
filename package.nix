@@ -16,7 +16,7 @@ let
 in
 rustPlatform.buildRustPackage (finalAttrs: {
   pname = "nh";
-  version = "${cargoToml.workspace.package.version}-${rev}";
+  version = "${cargoToml.workspace.package.version}-${rev}-fork";
 
   src = lib.fileset.toSource {
     root = ./.;
@@ -43,7 +43,12 @@ rustPlatform.buildRustPackage (finalAttrs: {
     aws-lc
   ];
 
-  cargoLock.lockFile = ./Cargo.lock;
+  cargoLock = {
+    lockFile = ./Cargo.lock;
+    outputHashes = {
+      "cognos-2.0.0" = "sha256-KRYqHqIOlfcpkxDTQJT7FDlmNpucexRlgWF24AvajuI=";
+    };
+  };
 
   postInstall =
     lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''

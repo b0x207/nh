@@ -19,7 +19,7 @@ use rom::{
   cache::BuildReportCache,
   display::format_log,
   state::current_time,
-  terminal::{Admission, LiveTerminal},
+  terminal::LiveTerminal,
 };
 use serde::Serialize;
 use subprocess::{Exec, ExitStatus, Redirection};
@@ -148,7 +148,7 @@ impl Monitor {
     // A retired terminal only appends, for dumb terminals, multiplexers, and
     // redirected output.
     let mut terminal = LiveTerminal::new(io::stderr());
-    if dumb || rom::terminal::admission() != Admission::Live {
+    if dumb || !rom::terminal::is_live() {
       terminal.retire()?;
     }
 
